@@ -39,7 +39,7 @@ def save_fig(fig_id, tight_layout=True, fig_extension="png", resolution=300):
 # # MNIST
 from sklearn.datasets import fetch_openml
 
-mnist = fetch_openml('mnist_784', as_frame=False)
+mnist = fetch_openml('mnist_784', as_frame=False, parser='auto')
 
 # extra code – it's a bit too long
 print(mnist.DESCR)

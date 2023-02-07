@@ -231,7 +231,7 @@ save_fig("california_housing_prices_plot")
 plt.show()
 
 # ## Looking for Correlations
-corr_matrix = housing.corr()
+corr_matrix = housing.corr( numeric_only=True )
 
 corr_matrix["median_house_value"].sort_values(ascending=False)
 
@@ -253,7 +253,7 @@ housing["rooms_per_house"] = housing["total_rooms"] / housing["households"]
 housing["bedrooms_ratio"] = housing["total_bedrooms"] / housing["total_rooms"]
 housing["people_per_house"] = housing["population"] / housing["households"]
 
-corr_matrix = housing.corr()
+corr_matrix = housing.corr( numeric_only=True )
 corr_matrix["median_house_value"].sort_values(ascending=False)
 
 # # Prepare the Data for Machine Learning Algorithms
@@ -364,7 +364,7 @@ housing_cat_1hot
 # By default, the `OneHotEncoder` class returns a sparse array, but we can convert it to a dense array if needed by calling the `toarray()` method:
 housing_cat_1hot.toarray()
 # Alternatively, you can set `sparse=False` when creating the `OneHotEncoder`:
-cat_encoder = OneHotEncoder(sparse=False)
+cat_encoder = OneHotEncoder(sparse_output=False)
 housing_cat_1hot = cat_encoder.fit_transform(housing_cat)
 housing_cat_1hot
 
@@ -529,13 +529,14 @@ class StandardScalerClone(BaseEstimator, TransformerMixin):
 from sklearn.cluster import KMeans
 
 class ClusterSimilarity(BaseEstimator, TransformerMixin):
-    def __init__(self, n_clusters=10, gamma=1.0, random_state=None):
+    def __init__(self, n_clusters=10, gamma=1.0, random_state=None, n_init=10 ):
         self.n_clusters = n_clusters
         self.gamma = gamma
         self.random_state = random_state
+        self.n_init = n_init
 
     def fit(self, X, y=None, sample_weight=None):
-        self.kmeans_ = KMeans(self.n_clusters, random_state=self.random_state)
+        self.kmeans_ = KMeans(self.n_clusters, random_state=self.random_state, n_init=self.n_init)
         self.kmeans_.fit(X, sample_weight=sample_weight)
         return self  # always return self!
 
